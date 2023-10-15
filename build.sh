@@ -1,10 +1,10 @@
 #!/bin/bash
 
-MANIFEST= # manifest rom
-BRANCH= # branch rom
-DEVICE= # DEVICE LU
-BUILD= # ENG,USERDEBUG,USER
-ROM= # lineage,derp,aosp dan kawan kawan
+MANIFEST=https://github.com/Venomized-Project/manifest.git # manifest rom
+BRANCH=13 # branch rom
+DEVICE=lavender # DEVICE LU
+BUILD=user # ENG,USERDEBUG,USER
+ROM=sym # lineage,derp,aosp dan kawan kawan
 
 mkdir -p /tmp/rom
 cd /tmp/rom
@@ -23,13 +23,19 @@ export CCACHE_DIR=$PWD/tempcc
 ccache -M 100G -F 0
 
 # Remove yang mau di ubah 
-rm -rf
+rm -rf hardware/qcom-caf/msm8998/media
+rm -rf hardware/qcom-caf/msm8998/display
+rm -rf hardware/qcom-caf/msm8998/audio
 
 # Sync KT VT DT dibawah ini
-git clone
+git clone -b thirteen git@github.com:JEMBUTPROJECT/Vt.git vendor/xiaomi/lavender;
+git clone -b qti-old https://github.com/projects-nexus/nexus_kernel_xiaomi_lavender --depth=1 kernel/xiaomi/lavender
 
 # Sync Hals hardware qcom device kalo ada kalo nggak ada yaudah
-git clone
+git clone -b arrow-13.0-caf-msm8998 https://github.com/ArrowOS/android_hardware_qcom_display hardware/qcom-caf/msm8998/display
+git clone -b arrow-13.0-caf-msm8998 https://github.com/ArrowOS/android_hardware_qcom_media hardware/qcom-caf/msm8998/media
+git clone -b arrow-13.0-caf-msm8998 https://github.com/ArrowOS/android_hardware_qcom_audio hardware/qcom-caf/msm8998/audio
+git clone --depth=1 https://github.com/kdrag0n/proton-clang.git prebuilts/clang/host/linux-x86/proton-clang
 
 # Normal build steps
 . build/envsetup.sh
