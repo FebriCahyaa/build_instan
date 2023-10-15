@@ -6,14 +6,14 @@ DEVICE=lavender # DEVICE LU
 BUILD=user # ENG,USERDEBUG,USER
 ROM=sym # lineage,derp,aosp dan kawan kawan
 
-mkdir -p /tmp/rom
-cd /tmp/rom
+mkdir rom/
+cd rom/
 
 # Repo init command, that -device,-mips,-darwin,-notdefault part will save you more time and storage to sync, add more according to your rom and choice. Optimization is welcomed! Let's make it quit, and with depth=1 so that no unnecessary things.
-repo init --no-repo-verify --depth=1 -u "$MANIFEST" -b "$BRANCH" -g default,-device,-mips,-darwin,-notdefault
+repo init -u "$MANIFEST" -b "$BRANCH"
 
 # Sync source with -q, no need unnecessary messages, you can remove -q if want! try with -j30 first, if fails, it will try again with -j8
-repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j30 || repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
+repo sync -c --force-sync --optimized-fetch --no-tags --no-clone-bundle --prune -j30 || repo sync -c --force-sync --optimized-fetch --no-tags --no-clone-bundle --prune -j8
 
 # ccache-fix
 mkdir tempcc
@@ -28,10 +28,12 @@ rm -rf hardware/qcom-caf/msm8998/display
 rm -rf hardware/qcom-caf/msm8998/audio
 
 # Sync KT VT DT dibawah ini
-git clone -b thirteen git@github.com:JEMBUTPROJECT/Vt.git vendor/xiaomi/lavender;
+git clone -b sym git@github.com:JEMBUTPROJECT/android_device_xiaomi_lavender.git device/xiaomi/lavender
+git clone -b thirteen git@github.com:JEMBUTPROJECT/Vt.git vendor/xiaomi/lavender
 git clone -b qti-old https://github.com/projects-nexus/nexus_kernel_xiaomi_lavender --depth=1 kernel/xiaomi/lavender
 
 # Sync Hals hardware qcom device kalo ada kalo nggak ada yaudah
+git clone -b lineage-20.0 https://github.com/LineageOS/android_prebuilts_tools-lineage.git
 git clone -b arrow-13.0-caf-msm8998 https://github.com/ArrowOS/android_hardware_qcom_display hardware/qcom-caf/msm8998/display
 git clone -b arrow-13.0-caf-msm8998 https://github.com/ArrowOS/android_hardware_qcom_media hardware/qcom-caf/msm8998/media
 git clone -b arrow-13.0-caf-msm8998 https://github.com/ArrowOS/android_hardware_qcom_audio hardware/qcom-caf/msm8998/audio
@@ -48,6 +50,6 @@ up(){
 	# 14 days, 10 GB limit
 }
 
-mka sym # make build
+mke sym # make build
 up out/target/product/"$DEVICE"/*zip
 up out/target/product/"$DEVICE"/*json
