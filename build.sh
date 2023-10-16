@@ -3,17 +3,17 @@
 MANIFEST=https://github.com/Venomized-Project/manifest.git # manifest rom
 BRANCH=13 # branch rom
 DEVICE=lavender # DEVICE LU
-BUILD=user # ENG,USERDEBUG,USER
-ROM=sym # lineage,derp,aosp dan kawan kawan
+BUILD=userdebug # ENG,USERDEBUG,USER
+ROM=dust # lineage,derp,aosp dan kawan kawan
 
-mkdir rom/
-cd rom/
+#mkdir rom/
+#cd rom/
 
 # Repo init command, that -device,-mips,-darwin,-notdefault part will save you more time and storage to sync, add more according to your rom and choice. Optimization is welcomed! Let's make it quit, and with depth=1 so that no unnecessary things.
-repo init -u "$MANIFEST" -b "$BRANCH"
+#repo init -u "$MANIFEST" -b "$BRANCH"
 
 # Sync source with -q, no need unnecessary messages, you can remove -q if want! try with -j30 first, if fails, it will try again with -j8
-repo sync -c --force-sync --optimized-fetch --no-tags --no-clone-bundle --prune -j30 || repo sync -c --force-sync --optimized-fetch --no-tags --no-clone-bundle --prune -j8
+#repo sync -c --force-sync --optimized-fetch --no-tags --no-clone-bundle --prune -j30 || repo sync -c --force-sync --optimized-fetch --no-tags --no-clone-bundle --prune -j8
 
 # ccache-fix
 mkdir tempcc
@@ -28,7 +28,7 @@ rm -rf hardware/qcom-caf/msm8998/display
 rm -rf hardware/qcom-caf/msm8998/audio
 
 # Sync KT VT DT dibawah ini
-git clone -b sym git@github.com:JEMBUTPROJECT/android_device_xiaomi_lavender.git device/xiaomi/lavender
+git clone -b dust-13 git@github.com:JEMBUTPROJECT/android_device_xiaomi_lavender.git device/xiaomi/lavender
 git clone -b thirteen git@github.com:JEMBUTPROJECT/Vt.git vendor/xiaomi/lavender
 git clone -b qti-old https://github.com/projects-nexus/nexus_kernel_xiaomi_lavender --depth=1 kernel/xiaomi/lavender
 
